@@ -1,10 +1,11 @@
- out-of-date archives, using the function do_clean'''
+#!/usr/bin/python3
+'''deletes out-of-date archives, using the function do_clean'''
 import os
 from datetime import datetime
 from fabric.api import env, local, put, run, runs_once
 
 
-env.hosts = ['3.95.246.115', '54.163.12.65']
+env.hosts = ['34.138.32.248', '3.226.74.205']
 
 
 @runs_once
