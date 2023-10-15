@@ -1,20 +1,17 @@
 #!/usr/bin/python3
 """Fabric script that distributes an archive to your web servers"""
 from fabric.api import env, put, run
-from os.path import exists
+from os.path import exist
 
-<<<<<<< HEAD
-env.hosts = ["3.95.246.115", "54.163.12.65"]
+env.hosts = ["18.212.97.222", "54.196.244.90"]
 env.user = "ubuntu"
 env.key = "~/.ssh/id_rsa"
-=======
 import os
 from datetime import datetime
 from fabric.api import env, local, put, run, runs_once
 
 
-env.hosts = ['3.95.246.115', '54.163.12.65']
->>>>>>> e53ddc400784148de62dde8d5ef114793def52d4
+env.hosts = ['18.212.97.222', '54.196.244.90']
 
 
 def do_deploy(archive_path):
@@ -36,3 +33,6 @@ def do_deploy(archive_path):
         return True
     except Exception:
         return False
+
+# Run the script like this:
+# $ fab -f 2-do_deploy_web_static.py
