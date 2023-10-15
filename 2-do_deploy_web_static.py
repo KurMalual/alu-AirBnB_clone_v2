@@ -1,17 +1,20 @@
 #!/usr/bin/python3
 """Fabric script that distributes an archive to your web servers"""
 from fabric.api import env, put, run
-from os.path import exist
+from os.path import exists
 
-env.hosts = ["18.212.97.222", "54.196.244.90"]
+<<<<<<< HEAD
+env.hosts = ["54.209.26.141", "18.215.182.32"]
 env.user = "ubuntu"
 env.key = "~/.ssh/id_rsa"
+=======
 import os
 from datetime import datetime
 from fabric.api import env, local, put, run, runs_once
 
 
-env.hosts = ['18.212.97.222', '54.196.244.90']
+env.hosts = ['34.228.27.169', '54.88.249.173']
+>>>>>>> e53ddc400784148de62dde8d5ef114793def52d4
 
 
 def do_deploy(archive_path):
@@ -36,3 +39,4 @@ def do_deploy(archive_path):
 
 # Run the script like this:
 # $ fab -f 2-do_deploy_web_static.py
+# do_deploy:archive_path=versions/file_name.tgz
