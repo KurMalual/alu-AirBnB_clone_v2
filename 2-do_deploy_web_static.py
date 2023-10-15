@@ -4,7 +4,7 @@ from fabric.api import env, put, run
 from os.path import exists
 
 <<<<<<< HEAD
-env.hosts = ["54.209.26.141", "18.215.182.32"]
+env.hosts = ["3.95.246.115", "54.163.12.65"]
 env.user = "ubuntu"
 env.key = "~/.ssh/id_rsa"
 =======
@@ -13,7 +13,7 @@ from datetime import datetime
 from fabric.api import env, local, put, run, runs_once
 
 
-env.hosts = ['34.228.27.169', '54.88.249.173']
+env.hosts = ['3.95.246.115', '54.163.12.65']
 >>>>>>> e53ddc400784148de62dde8d5ef114793def52d4
 
 
@@ -36,7 +36,3 @@ def do_deploy(archive_path):
         return True
     except Exception:
         return False
-
-# Run the script like this:
-# $ fab -f 2-do_deploy_web_static.py
-# do_deploy:archive_path=versions/file_name.tgz
