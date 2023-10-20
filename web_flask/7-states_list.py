@@ -1,54 +1,148 @@
 #!/usr/bin/python3
 <<<<<<< HEAD
-
-"""Script that starts a Flask web application"""
-
+""" Web application listening on 0.0.0.0, port 5000 """
 from flask import Flask, render_template
-from models import storage
-from models.state import State
-=======
-"""Starts a flask app
-    listens to 0.0.0.0:5000
-    
-"""
-from models import storage
-from flask import Flask
-from flask import render_template
->>>>>>> 3a1362a3018cf60f12069a747d6902faac1e5f09
 
 app = Flask(__name__)
 
 
-<<<<<<< HEAD
-@app.route('/states_list', strict_slashes=False)
-def states():
-    """returns list of states"""
-    return render_template('7-states_list.html',
-                           states=storage.all('State').values())
+@app.route("/")
+def hello_hbnb():
+    """ Display Hello HBNB! """
+    return "Hello HBNB!"
 
 
-@app.teardown_appcontext
-def teardown(self):
-    """closes the current SQLAlchemy session"""
-    storage.close()
+@app.route("/hbnb")
+def hbnb():
+    """ Display HBNB! """
+    return "HBNB"
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-=======
-@app.route("/states_list", strict_slashes=False)
-def states_list():
-    """Displays an HTML page with a list of all State objects in DBStorage.
-    States are sorted by name.
+@app.route("/c/<text>")
+def c_is_fun(text):
     """
-    states = storage.all("State")
-    return render_template("7-states_list.html", states=states)
+    Display 'C' followed by the value of text
+    Replace underscore _ symbols with a space
+    """
+    return "C {}".format(text.replace("_", " "))
 
 
-@app.teardown_appcontext
-def teardown(exc):
-    """Remove the current SQLAlchemy session."""
-    storage.close()
+@app.route("/python/")
+@app.route("/python/<text>")
+def python_is_cool(text="is cool"):
+    """
+    Display 'Python' followed by the value of text
+    Replace underscore _ symbols with a space
+    """
+    return "Python {}".format(text.replace("_", " "))
+
+
+@app.route("/number/<int:n>")
+def number(n):
+    """
+    Display 'n is a number' only if n is an integer
+    """
+    return "{} is a number".format(n)
+
+
+@app.route("/number_template/<int:n>")
+def number_template(n):
+    """
+    Display a HTML page only if n is an integer
+    """
+    return render_template('5-number.html', n=n)
+
+
+@app.route("/number_odd_or_even/<int:n>")
+def odd_or_even_template(n):
+    """
+    Display a HTML page only if n is an integer
+    Number: n is even|odd
+    """
+    return render_template('6-number_odd_or_even.html', n=n)
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
+    app.url_map.strict_slashes = False
+=======
+"""Starts a Flask web application.
+
+The application listens on 0.0.0.0, port 5000.
+Routes:
+    /: Displays 'Hello HBNB!'.
+    /hbnb: Displays 'HBNB'.
+    /c/<text>: Displays 'C' followed by the value of <text>.
+    /python/(<text>): Displays 'Python' followed by the value of <text>.
+    /number/<n>: Displays 'n is a number' only if <n> is an integer.
+    /number_template/<n>: Displays an HTML page only if <n> is an integer.
+        - Displays the value of <n> in the body.
+    /number_odd_or_even/<n>: Displays an HTML page only if <n> is an integer.
+        - States whether <n> is even or odd in the body.
+"""
+from flask import Flask
+from flask import render_template
+
+app = Flask(__name__)
+app.jinja_env.trim_blocks = True
+app.jinja_env.lstrip_blocks = True
+
+
+@app.route("/", strict_slashes=False)
+def hello_hbnb():
+    """Displays 'Hello HBNB!'"""
+    return "Hello HBNB!"
+
+
+@app.route("/hbnb", strict_slashes=False)
+def hbnb():
+    """Displays 'HBNB'"""
+    return "HBNB"
+
+
+@app.route("/c/<text>", strict_slashes=False)
+def c(text):
+    """Displays 'C' followed by the value of <text>
+
+    Replaces any underscores in <text> with slashes.
+    """
+    text = text.replace("_", " ")
+    return "C {}".format(text)
+
+
+@app.route("/python", strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def python(text="is cool"):
+    """Displays 'Python' followed by the value of <text>
+
+    Replaces any underscores in <text> with slashes.
+    """
+    text = text.replace("_", " ")
+    return "Python {}".format(text)
+
+
+@app.route("/number/<int:n>", strict_slashes=False)
+def number(n):
+    """Displays 'n is a number' only if <n> is an integer."""
+    return "{} is a number".format(n)
+
+
+@app.route("/number_template/<int:n>", strict_slashes=False)
+def number_template(n):
+    """Displays an HTML page only if <n> is an integer.
+
+    Displays the value of <n> in the body.
+    """
+    return render_template("5-number.html", n=n)
+
+
+@app.route("/number_odd_or_even/<int:n>", strict_slashes=False)
+def number_odd_or_even(n):
+    """Displays an HTML page only if <n> is an integer.
+
+    States whether <n> is odd or even in the body.
+    """
+    return render_template("6-number_odd_or_even.html", n=n)
 
 
 if __name__ == "__main__":
