@@ -1,71 +1,45 @@
 #!/usr/bin/python3
-<<<<<<< HEAD
-"""
-starts a Flask web application
-"""
 
-from flask import Flask, render_template
-from models import *
+"""Starts a Flask web application"""
+
 from models import storage
-app = Flask(__name__)
-
-
-@app.route('/states', strict_slashes=False)
-@app.route('/states/<state_id>', strict_slashes=False)
-def states(state_id=None):
-    """display the states and cities"""
-    states = storage.all("State")
-    if state_id is not None:
-        state_id = 'State.' + state_id
-    return render_template('9-states.html', states=states, state_id=state_id)
-
-
-@app.teardown_appcontext
-def teardown_db(exception):
-    """closes the storage"""
-    storage.close()
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
-=======
-"""Starts a Flask web application.
-The application listens on 0.0.0.0, port 5000.
-Routes:
-    /states: HTML page with a list of all State objects.
-    /states/<id>: HTML page displaying the given state with <id>.
-"""
-from models import storage
+from models.state import State
 from flask import Flask
 from flask import render_template
 
 app = Flask(__name__)
 
 
-@app.route("/states", strict_slashes=False)
-def states():
-    """Displays an HTML page with a list of all States.
-    States are sorted by name.
-    """
-    states = storage.all("State")
-    return render_template("9-states.html", state=states)
+@app.route('/states', strict_slashes=False)
+def state_list():
+    """Comment"""
+    states = storage.all('State').values()
+    return render_template(
+        "9-states.html",
+        states=states,
+        condition="states_list")
 
 
-@app.route("/states/<id>", strict_slashes=False)
-def states_id(id):
-    """Displays an HTML page with info about <id>, if it exists."""
-    for state in storage.all("State").values():
-        if state.id == id:
-            return render_template("9-states.html", state=state)
-    return render_template("9-states.html")
+@app.route('/states/<id>', strict_slashes=False)
+def states_by_id(id):
+    """Comment"""
+    all_states = storage.all('State')
+    key = "State.{}".format(id)
+    try:
+        state = all_states[key]
+        return render_template(
+            '9-states.html',
+            state=state,
+            condition="state_id")
+    except:
+        return render_template('9-states.html', condition="not_found")
 
 
 @app.teardown_appcontext
-def teardown(exc):
-    """Remove the current SQLAlchemy session."""
+def teardown(self):
+    """Removes the current SQLAlchemy Session"""
     storage.close()
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0")
->>>>>>> 3a1362a3018cf60f12069a747d6902faac1e5f09
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')

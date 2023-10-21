@@ -1,54 +1,56 @@
 #!/usr/bin/python3
-""" Script that starts a Flask web application. """
+"""Script that starts a Flask web application."""
 from flask import Flask, render_template
+
 app = Flask(__name__)
 
 
 @app.route('/', strict_slashes=False)
-def hello_hbnb():
-    """ Function that displays "Hello HBNB!" """
-    return 'Hello HBNB!'
+def hello():
+    """Returns Hello HBNB!"""
+    return "Hello HBNB!"
 
 
 @app.route('/hbnb', strict_slashes=False)
-def hbnb():
-    """ Function that displays "HBNB" """
-    return 'HBNB'
+def hello_hbnb():
+    """Returns HBNB"""
+    return "HBNB"
 
 
 @app.route('/c/<text>', strict_slashes=False)
-def c_is_fun(text):
-    """ Function that displays "C" followed
-    by the value of the text variable """
-    return 'C {}'.format(text.replace('_', ' '))
+def hello_c(text):
+    """Returns C <text>"""
+    return 'C ' + text.replace('_', ' ')
 
 
-@app.route('/python', strict_slashes=False)
+@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
 @app.route('/python/<text>', strict_slashes=False)
-def python_is_cool(text='is cool'):
-    """ Function that displays "Python" followed
-    by the value of the text variable """
-    return 'Python {}'.format(text.replace('_', ' '))
+def python(text):
+    """Returns Python <text>"""
+    return 'Python' + text.replace('_', ' ')
 
 
 @app.route('/number/<int:n>', strict_slashes=False)
 def number(n):
-    """ Function that displays "n is a number"
-    only if n is an integer """
-    return '{} is a number'.format(n)
+    """Returns <n> is a number"""
+    return "{} is a number".format(n)
 
 
 @app.route('/number_template/<int:n>', strict_slashes=False)
 def number_template(n):
-    """ Function that displays a HTML page only if n is an integer """
+    """Returns HTML page if n is an integer"""
     return render_template('5-number.html', n=n)
 
 
 @app.route('/number_odd_or_even/<int:n>', strict_slashes=False)
 def number_odd_or_even(n):
-    """ Function that displays a HTML page only if n is an integer """
-    return render_template('6-number_odd_or_even.html', n=n)
+    """Returns HTML page if n is an integer and odd or even"""
+    if n % 2 == 0:
+        return render_template('6-number_odd_or_even.html',
+                               n=n, odd_even='even')
+    else:
+        return render_template('6-number_odd_or_even.html',
+                               n=n, odd_even='odd')
 
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
